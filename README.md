@@ -9,3 +9,5 @@ Can also can be achieved with a [parameterized quarto report.](https://bookdown.
 
 \
 ![](docs/demo.gif)
+
+![](docs/logo.png){width="497"}
