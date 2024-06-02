@@ -1,0 +1,17 @@
+{
+  "hash": "be4440eb265baba77dcd3193e9a4da71",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"M&A deals analysis\"\nsubtitle: \"Sample parameterized report in PowerPoint\"\nformat: \n  pptx:\n    reference-doc: template.pptx\n#keep-md: true\n---\n\n\n# Introduction\n\nThis is a sample analysis of deals per sectors over time.\\\nIt is an automated report using R & tidyverse. Rendering is done with [Quarto](https://quarto.org/docs/presentations/powerpoint.html) and Knitr.\\\nInspired by a [question](https://github.com/quarto-dev/quarto-cli/discussions/2403) on the quarto-cli repository.\\\n\nCan also can be achieved with a [parameterized quarto report.](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html)\\\nSee [esteveaq.github.io/hello/blog/report](https://esteveaq.github.io/hello/blog) for more information.\n\n\n::: {.cell}\n\n:::\n\n\n# Sector land\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-5-1.png)\n:::\n:::\n\n\n# Sector space\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-8-1.png)\n:::\n:::\n\n\n# Sector sea\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-11-1.png)\n:::\n:::\n\n\n# Sector radio\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-14-1.png)\n:::\n:::\n\n\n# Sector ground\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-17-1.png)\n:::\n:::\n\n\n# Sector air\n::: {.cell}\n::: {.cell-output-display}\n![](Report_files/figure-pptx/unnamed-chunk-20-1.png)\n:::\n:::\n",
+    "supporting": [
+      "Report_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

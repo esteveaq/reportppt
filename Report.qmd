@@ -1,0 +1,99 @@
+---
+title: "M&A deals analysis"
+subtitle: "Sample parameterized report in PowerPoint"
+format: 
+  pptx:
+    reference-doc: template.pptx
+#keep-md: true
+---
+
+# Introduction
+
+This is a sample analysis of deals per sectors over time.\
+It is an automated report using R & tidyverse. Rendering is done with [Quarto](https://quarto.org/docs/presentations/powerpoint.html) and Knitr.\
+Inspired by a [question](https://github.com/quarto-dev/quarto-cli/discussions/2403) on the quarto-cli repository.\
+
+Can also can be achieved with a [parameterized quarto report.](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html)\
+See [esteveaq.github.io/hello/blog/report](https://esteveaq.github.io/hello/blog) for more information.
+
+```{r}
+#| output: false
+#| message: false
+# Load libraries
+library(tidyverse)
+library(patchwork)
+# Set theme
+theme_set(theme_minimal())
+
+# Get data 
+source("Data/data_deals.R", echo = FALSE)
+
+# Define parameter (categories) to ensure proper slide order on the PPT file
+sector.select <- custom_levels
+
+# Define function to create plots with a sector.select variable
+make_plots <- function(sector.select) {
+
+# define highlight filter for plot a
+data.filt.a <- data.plot.a %>% filter(sectors == sector.select)
+color.hex <- "#AA2841"
+
+# Plot a
+a <-  
+  data.plot.a %>% 
+  ggplot(mapping = aes(x = fct_reorder(sectors, prop), y = prop)) +
+  geom_col(fill = "gray70") +
+  #highlight filter
+  geom_col(data = data.filt.a, fill = color.hex) + 
+  coord_flip() +
+  geom_text(aes(label = paste0(prop*100, "%")), 
+            vjust = .5,
+            hjust = 1.2,
+            size = 4,
+            color = "white") + #add labels
+  scale_y_continuous(labels = scales::percent) + # axis label in %
+  labs(x = "Sectors",
+       title = paste("Proportion of deals for the",sector.select, "sector"), 
+       subtitle = "By number of deals") #relabel 
+
+# define highlight filter for plot b
+data.filt.b <- data.plot.b %>% filter(sectors == sector.select)
+
+# Plot b
+b <-
+  ggplot(data = data.plot.b, aes(x = year, y = n)) +
+  geom_col(fill = "gray70") + 
+  #highlight filter
+  geom_col(data = data.filt.b, fill = color.hex) +
+  geom_text(data =  data.filt.b, mapping = aes(label = n), vjust = -0.8, color = color.hex) 
+
+# Assemble plots together using the 'library(patchwork)' syntax
+(a + b)
+}
+
+# Define the function that will map 'sector.select' to the function 'make_plots'
+plots <- purrr::map(sector.select, make_plots)
+
+# Store generated plots in a tibble 
+plots_df <- tibble::tibble(
+  sector.select = sector.select,
+  plots = plots)
+
+```
+
+```{r}
+#| output: asis
+# Iterate over each row of the 'plots_df' data frame and generate slides using knitr (the markdown function that will generate actual PPT slides)
+results_slides <- purrr::pmap_chr(plots_df, function(sector.select, plots) {
+  knitr::knit_child(text = c(
+    "# Sector `r sector.select`",
+    "```{r}",
+    "#| echo: false",
+    "plots",
+    "```",
+    ""), envir = environment(), quiet = TRUE)
+})
+
+# Print results, and indent with '\n' so Quarto recognizes different slides
+cat(results_slides, sep = '\n')
+```
