@@ -10,4 +10,4 @@ This project uses R & tidyverse. Rendering is done with [Quarto](https://quarto.
 \
 ![](docs/demo.gif)
 
-![](docs/logo.png){width="465"}
+![](docs/logo.png)
